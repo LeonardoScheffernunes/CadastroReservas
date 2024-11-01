@@ -1,0 +1,80 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Hotel {
+    private List<Quarto> quartos;
+    private List<Hospede> hospedes;
+    private List<Reserva> reservas;
+
+    public Hotel() {
+        quartos = new ArrayList<>();
+        hospedes = new ArrayList<>();
+        reservas = new ArrayList<>();
+    }
+
+    public void cadastrarQuarto(String numero, String tipo, double precoDiario) {
+        Quarto quarto = new Quarto(numero, tipo, precoDiario);
+        quartos.add(quarto);
+    }
+
+    public Hospede cadastrarHospede(String nome) {
+        Hospede hospede = new Hospede(nome);
+        hospedes.add(hospede);
+        return hospede;
+    }
+
+    public void fazerReserva(Hospede hospede, String dataCheckIn, String dataCheckOut, int numeroQuartos, String tipoQuarto) {
+        Reserva reserva = new Reserva(hospede, dataCheckIn, dataCheckOut, numeroQuartos, tipoQuarto);
+        reservas.add(reserva);
+        hospede.adicionarReserva(reserva);
+        atualizarDisponibilidade(tipoQuarto, false);
+    }
+
+    private void atualizarDisponibilidade(String tipoQuarto, boolean disponivel) {
+        for (Quarto quarto : quartos) {
+            if (quarto.getTipo().equals(tipoQuarto) && disponivel) {
+                quarto.liberar();
+                break;
+            } else if (quarto.getTipo().equals(tipoQuarto) && !disponivel) {
+                quarto.ocupar();
+                break;
+            }
+        }
+    }
+
+    public void checkIn(String numeroQuarto) {
+        for (Quarto quarto : quartos) {
+            if (quarto.getNumero().equals(numeroQuarto) && quarto.isDisponivel()) {
+                quarto.ocupar();
+                System.out.println("Check-in realizado no quarto " + numeroQuarto);
+                return;
+            }
+        }
+        System.out.println("Quarto não disponível para check-in.");
+    }
+
+    public void checkOut(String numeroQuarto) {
+        for (Quarto quarto : quartos) {
+            if (quarto.getNumero().equals(numeroQuarto) && !quarto.isDisponivel()) {
+                quarto.liberar();
+                System.out.println("Check-out realizado do quarto " + numeroQuarto);
+                return;
+            }
+        }
+        System.out.println("Quarto não encontrado ou já disponível.");
+    }
+
+    public List<Quarto> relatorioOcupacao() {
+        List<Quarto> ocupados = new ArrayList<>();
+        for (Quarto quarto : quartos) {
+            if (!quarto.isDisponivel()) {
+                ocupados.add(quarto);
+            }
+        }
+        return ocupados;
+    }
+
+    public List<Reserva> relatorioHistoricoReservas() {
+        return reservas;
+    }
+}
