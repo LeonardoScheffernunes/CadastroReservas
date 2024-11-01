@@ -1,0 +1,43 @@
+package fag;
+public class Quarto {
+    private String numero;
+    private String tipo;
+    private double precoDiario;
+    private boolean disponivel;
+
+    public Quarto(String numero, String tipo, double precoDiario) {
+        this.numero = numero;
+        this.tipo = tipo;
+        this.precoDiario = precoDiario;
+        this.disponivel = true; // Disponível por padrão
+    }
+
+    public void ocupar() {
+        this.disponivel = false;
+    }
+
+    public void liberar() {
+        this.disponivel = true;
+    }
+
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public double getPrecoDiario() {
+        return precoDiario;
+    }
+
+    @Override
+    public String toString() {
+        return "Quarto " + numero + " - Tipo: " + tipo + " - R$" + precoDiario + "/dia - " + (disponivel ? "Disponível" : "Ocupado");
+    }
+}
