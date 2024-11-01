@@ -1,0 +1,24 @@
+public class Reserva {
+    private Hospede hospede;
+    private String dataCheckIn;
+    private String dataCheckOut;
+    private int numeroQuartos;
+    private String tipoQuarto;
+
+    public Reserva(Hospede hospede, String dataCheckIn, String dataCheckOut, int numeroQuartos, String tipoQuarto) {
+        this.hospede = hospede;
+        this.dataCheckIn = dataCheckIn;
+        this.dataCheckOut = dataCheckOut;
+        this.numeroQuartos = numeroQuartos;
+        this.tipoQuarto = tipoQuarto;
+    }
+
+    public Hospede getHospede() {
+        return hospede;
+    }
+
+    @Override
+    public String toString() {
+        return "Reserva: " + hospede.getNome() + " - de " + dataCheckIn + " a " + dataCheckOut + " - " + numeroQuartos + " " + tipoQuarto + "(s)";
+    }
+}
